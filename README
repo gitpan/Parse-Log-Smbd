@@ -1,6 +1,7 @@
 Parse-Log-Smbd
 
-This simples module retrieves usernames successfully authenticated to a Samba smbd server, through parsing of a log.smbd file. Connections to network shares are also to be retrieved (not yet implemented).
+This simple module retrieves usernames successfully authenticated to a Samba smbd server, through parsing of a log.smbd file. 
+Connections to network shares are also to be retrieved.
 
 Hopefully, it should work on the usual Linux/Unix platforms where Samba itself runs. A simple check is done with Devel::CheckOS.
 

@@ -18,7 +18,7 @@ Version 0.01
 
 =cut
 
-our $VERSION = '0.01_03';
+our $VERSION = '0.01_04';
 
 
 =head1 SYNOPSIS
@@ -28,8 +28,9 @@ This module intends to list users successfully authenticated and connections to 
     use Parse::Log::Smbd;
 
     my $logfile = Parse::Log::Smbd->new( '/var/log/log.smbd' );
- 
-    my @users = $log->users;   
+
+    my @users = $log->users;
+    my @shares = $log->shares;
 
 =head1 SUBROUTINES/METHODS
 
@@ -43,15 +44,31 @@ sub new {
     my ($class, $file) = @_;
     croak "Log filename missing" unless defined $file;
 
-    my $self = {}; 
+    my $self = {};
 
     my $fh = IO::File->new("< $file");
     croak "Can't read from $file: $!" unless $fh;
 
     $self->{fh} = $fh;
 
+    _parse_log($self);
+
     bless ($self, $class);
     return $self;
+}
+
+sub _parse_log {
+  my $self = shift;
+  my $fh = $self->{fh};
+
+  while (<$fh>) {
+    if (/authentication for user \[(\w+)\].*?/) {
+      push @{ $self->{users} }, $1;
+    }
+    if (/connect to service (\w+).*?/) {
+      push @{ $self->{shares} }, $1;
+    }
+  }
 }
 
 =head2 users
@@ -61,30 +78,23 @@ Lists users that authenticated successfully to the smbd server. Returns a sorted
 =cut
 
 sub users {
-    my $self = shift;
+  my $self = shift;
 
-    my $fh = $self->{fh};
-    my @users;
-    my %seen = undef;
-
-    # record only successful authentications
-    while (<$fh>) {
-	next if !/authentication for user/;
-	my ( $user ) = /authentication for user \[(\w+)\].*succeeded/;
-	push @users, $user;
-    }
-    # return unique, sorted usernames
-    return sort grep(!$seen{$_}++, @users);
+  undef my %seen;
+  return sort grep(!$seen{$_}++, @{ $self->{users} });
 }
 
 =head2 shares
 
-Lists connections to network shares (to be implemented yet).
+Lists successful connections to network shares.
 
 =cut
 
 sub shares {
+  my $self = shift;
 
+  undef my %seen;
+  return sort grep(!$seen{$_}++, @{ $self->{shares} });
 }
 
 =head1 AUTHOR

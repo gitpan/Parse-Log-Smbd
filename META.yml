@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Parse-Log-Smbd
-version:            0.01_03
+version:            0.01_04
 abstract:           parse log.smbd files to fetch usernames and connections to network shares
 author:
     - Ari Constancio <affconstancio@gmail.com>
