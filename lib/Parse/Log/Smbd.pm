@@ -15,7 +15,7 @@ Version 0.01
 
 =cut
 
-our $VERSION = '0.01_01';
+our $VERSION = '0.01_02';
 
 
 =head1 SYNOPSIS
@@ -26,8 +26,7 @@ This module intends to list users successfully authenticated and connections to 
 
     my $logfile = Parse::Log::Smbd->new( '/var/log/log.smbd' );
  
-    my $users = $log->users;   
-    ...
+    my @users = $log->users;   
 
 =head1 SUBROUTINES/METHODS
 
@@ -54,7 +53,7 @@ sub new {
 
 =head2 users
 
-List users that authenticated successfully to the smbd server
+Lists users that authenticated successfully to the smbd server. Returns a sorted list of unique usernames.
 
 =cut
 
@@ -63,19 +62,21 @@ sub users {
 
     my $fh = $self->{fh};
     my @users;
-    
+    my %seen = undef;
+
     # record only successful authentications
     while (<$fh>) {
 	next if !/authentication for user/;
 	my ( $user ) = /authentication for user \[(\w+)\].*succeeded/;
 	push @users, $user;
     }
-    return @users;
+    # return unique, sorted usernames
+    return sort grep(!$seen{$_}++, @users);
 }
 
 =head2 shares
 
-List connections to network shares (to be implemented yet).
+Lists connections to network shares (to be implemented yet).
 
 =cut
 
@@ -125,7 +126,7 @@ L<http://search.cpan.org/dist/Parse-Log-Smbd/>
 
 =head1 ACKNOWLEDGEMENTS
 
-Thanks to the Samba Team for a great software.
+Thanks to the Samba Team L<http://samba.org> for a great software.
 
 =head1 LICENSE AND COPYRIGHT
 

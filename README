@@ -1,16 +1,8 @@
 Parse-Log-Smbd
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+This simples module retrieves usernames successfully authenticated to a Samba smbd server, through parsing of a log.smbd file. Connections to network shares are also to be retrieved (not yet implemented).
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it to get an idea of the module's uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
-
+Hopefully, it should work on the usual Linux/Unix platforms where Samba itself runs.
 
 INSTALLATION
 
