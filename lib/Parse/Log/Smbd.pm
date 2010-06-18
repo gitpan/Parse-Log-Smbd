@@ -18,16 +18,16 @@ Version 0.01
 
 =cut
 
-our $VERSION = '0.01_04';
+our $VERSION = '0.01';
 
 
 =head1 SYNOPSIS
 
-This module intends to list users successfully authenticated and connections to SMB/CIFS network shares, read from Samba C<log.smbd> files.
+This module retrieves users successfully authenticated and connections to SMB/CIFS network shares from Samba C<log.smbd> files.
 
     use Parse::Log::Smbd;
 
-    my $logfile = Parse::Log::Smbd->new( '/var/log/log.smbd' );
+    my $log = Parse::Log::Smbd->new( '/var/log/log.smbd' );
 
     my @users = $log->users;
     my @shares = $log->shares;
@@ -86,7 +86,7 @@ sub users {
 
 =head2 shares
 
-Lists successful connections to network shares.
+Lists successful connections to network shares. Returns a sorted list of unique shares.
 
 =cut
 
