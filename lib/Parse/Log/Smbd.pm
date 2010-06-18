@@ -4,6 +4,9 @@ use warnings;
 use strict;
 use Carp;
 use IO::File;
+use Devel::CheckOS qw/ os_is die_unsupported /;
+
+die_unsupported() if os_is('MicrosoftWindows');
 
 =head1 NAME
 
@@ -15,7 +18,7 @@ Version 0.01
 
 =cut
 
-our $VERSION = '0.01_02';
+our $VERSION = '0.01_03';
 
 
 =head1 SYNOPSIS
