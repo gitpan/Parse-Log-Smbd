@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Parse-Log-Smbd
-version:            0.02
+version:            0.02_01
 abstract:           parse log.smbd files to fetch usernames and connections to network shares
 author:
     - Ari Constancio <affc@cpan.org>
@@ -19,7 +19,7 @@ no_index:
     directory:
         - t
         - inc
-generated_by:       ExtUtils::MakeMaker version 6.55_02
+generated_by:       ExtUtils::MakeMaker version 6.56
 meta-spec:
     url:      http://module-build.sourceforge.net/META-spec-v1.4.html
     version:  1.4
